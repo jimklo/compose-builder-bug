@@ -1,0 +1,6 @@
+services:
+  derived:
+    image: my-derived:latest
+    build:
+      dockerfile: Dockerfile.derivative
+      context: .

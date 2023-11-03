@@ -1,0 +1,157 @@
+
+********** DOCKER VERSION **************
+Client:
+ Cloud integration: v1.0.35+desktop.5
+ Version:           24.0.6
+ API version:       1.43
+ Go version:        go1.20.7
+ Git commit:        ed223bc
+ Built:             Mon Sep  4 12:28:49 2023
+ OS/Arch:           darwin/arm64
+ Context:           desktop-linux
+
+Server: Docker Desktop 4.24.2 (124339)
+ Engine:
+  Version:          dev
+  API version:      1.44 (minimum version 1.12)
+  Go version:       go1.20.8
+  Git commit:       HEAD
+  Built:            Tue Sep 26 11:52:32 2023
+  OS/Arch:          linux/arm64
+  Experimental:     false
+ containerd:
+  Version:          1.6.22
+  GitCommit:        8165feabfdfe38c65b599c4993d227328c231fca
+ runc:
+  Version:          1.1.8
+  GitCommit:        v1.1.8-0-g82f18fe
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+
+****************************************************************************************
+********** Show which builders are available and set as default
+NAME/NODE            DRIVER/ENDPOINT  STATUS  BUILDKIT PLATFORMS
+multi-arch-docker *  docker-container                  
+  multi-arch-docker0 desktop-linux    running v0.12.3  linux/arm64*, linux/amd64*, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/mips64, linux/arm/v7, linux/arm/v6
+default              docker                            
+  default            default          running v0.12.2  linux/arm64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/mips64
+desktop-linux        docker                            
+  desktop-linux      desktop-linux    running v0.12.2  linux/arm64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/mips64
+
+****************************************************************************************
+********** Build base container using docker BuildKit
+#0 building with "multi-arch-docker" instance using docker-container driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 141B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:latest
+#2 ...
+
+#3 [auth] library/ubuntu:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:latest
+#2 DONE 0.9s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B 0.0s done
+#4 DONE 0.0s
+
+#5 [1/1] FROM docker.io/library/ubuntu:latest@sha256:2b7412e6465c3c7fc5bb21d3e6f1917c167358449fecac8176c6e496e5c1f05f
+#5 resolve docker.io/library/ubuntu:latest@sha256:2b7412e6465c3c7fc5bb21d3e6f1917c167358449fecac8176c6e496e5c1f05f done
+#5 CACHED
+
+#6 exporting to oci image format
+#6 exporting layers done
+#6 exporting manifest sha256:2667d9a25f5035f22e587e63145f7b26a5596acf7b6fc6cf3fbbc26e88928f94 done
+#6 exporting config sha256:e7b3f5b697e240319911bc43755061920ba7af98fb3436fe779fd83915f3dc90 done
+#6 sending tarball
+#6 sending tarball 0.3s done
+#6 DONE 0.3s
+
+#7 importing to docker
+#7 DONE 0.0s
+
+View build details: docker-desktop://dashboard/build/multi-arch-docker/multi-arch-docker0/csch4grmcwpob0pzv4pd7aini
+
+****************************************************************************************
+********** Show that base image built
+REPOSITORY   TAG       IMAGE ID       CREATED                  SIZE
+my-base      latest    2667d9a25f50   Less than a second ago   106MB
+
+****************************************************************************************
+********** Try building the derivative image using docker compose
+#0 building with "multi-arch-docker" instance using docker-container driver
+
+#1 [derived internal] load build definition from Dockerfile.derivative
+#1 transferring dockerfile: 104B done
+#1 DONE 0.0s
+
+#2 [derived internal] load metadata for docker.io/library/my-base:latest
+#2 ...
+
+#3 [derived auth] library/my-base:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [derived internal] load metadata for docker.io/library/my-base:latest
+#2 ERROR: pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+------
+ > [derived internal] load metadata for docker.io/library/my-base:latest:
+------
+failed to solve: my-base:latest: pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+
+****************************************************************************************
+********** Now build the derivative image using docker BuildKit
+#0 building with "multi-arch-docker" instance using docker-container driver
+
+#1 [internal] load build definition from Dockerfile.derivative
+#1 transferring dockerfile: 104B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/my-base:latest
+#2 ...
+
+#3 [auth] library/my-base:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/my-base:latest
+#2 ERROR: pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+------
+ > [internal] load metadata for docker.io/library/my-base:latest:
+------
+Dockerfile.derivative:1
+--------------------
+   1 | >>> FROM my-base:latest
+--------------------
+ERROR: failed to solve: my-base:latest: pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+
+View build details: docker-desktop://dashboard/build/multi-arch-docker/multi-arch-docker0/ui1y1vz50ja95no07b5csydza
+****************************************************************************************
+********** Show that derived built that this built
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+
+****************************************************************************************
+********** Try running the built image using compose
+ derived Pulling 
+ derived Warning 
+#0 building with "multi-arch-docker" instance using docker-container driver
+
+#1 [derived internal] load build definition from Dockerfile.derivative
+#1 transferring dockerfile: 104B done
+#1 DONE 0.0s
+
+#2 [derived internal] load metadata for docker.io/library/my-base:latest
+#2 ...
+
+#3 [derived auth] library/my-base:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [derived internal] load metadata for docker.io/library/my-base:latest
+#2 ERROR: pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+------
+ > [derived internal] load metadata for docker.io/library/my-base:latest:
+------
+failed to solve: my-base:latest: pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
